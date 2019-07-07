@@ -4,10 +4,10 @@
       <h1>DON'T TOUCH MY BALLS</h1>
     </div>
     <div class="main">
-      <div class="players"><PlayersList/></div>
-      <div class="board"><Board/></div>
-      <div class="score"><Score/></div>
-      <div class="logs"><Logs/></div>  
+      <PlayersList class="players"/>
+      <Board class="board"/>
+      <Score class="score"/>
+      <Logs class="logs"/>
     
     </div>
   </div>
