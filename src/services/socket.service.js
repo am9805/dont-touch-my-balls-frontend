@@ -4,7 +4,7 @@ export class SocketService {
   constructor() {}
 
   name = '';
-  message = '';
+  data;
   messages = [];
   socket = io('localhost:3001');
 
@@ -15,10 +15,12 @@ export class SocketService {
     console.log(name);
   }
 
-  loginPlayerSuccess() {
+  loginPlayerSuccess(callback) {
     this.socket.on('PLAYER_ADDITION', data => {
-      console.log('client message', data);
+        callback(data);
     });
+    
+    
   }
   getSocketSession() {
     return this.socket;

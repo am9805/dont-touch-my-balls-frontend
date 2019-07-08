@@ -2,11 +2,12 @@
   <div class="container">
     <div class="header">
       <h1>DON'T TOUCH MY BALLS</h1>
-      <div>
-        <b-button @click="$bvModal.show('modal-scoped')">Open Modal</b-button>
+      <div v-if="!isLoged">
+        <b-button @click="$bvModal.show('modal-scoped')">LOGIN</b-button>
         <b-modal id="modal-scoped">
           <p class="my-4">Player Username!</p>
           <input v-model="msg">
+          <p v-if="errorMessage" class="my-4">{{errorMessage}}</p>
           <b-button size="sm" variant="outline-danger" @click="okModal()" modal-ok> OK </b-button>
         </b-modal>
       </div>
@@ -31,9 +32,10 @@ export default {
   data() {
     return {
       msg: '',
-      socketService: new SocketService()
-      
-      
+      socketService: new SocketService(),
+      isLoged : false,
+      playerData: Object,
+      errorMessage: ''      
     }    
   },
   components: {
@@ -44,14 +46,20 @@ export default {
   },
   methods: {
     okModal(){
-      this.socketService.loginPlayer(this.msg)      
+      this.socketService.loginPlayer(this.msg);
+      this.msg='';
     },
-    getSocket(){
-      this.socketService.loginPlayerSuccess();
+    getLoginInfo(){      
+      this.socketService.loginPlayerSuccess(callback => {
+        this.isLoged=callback['connected'];
+        if(this.isLoged == false){
+          this.errorMessage= callback['error']['message']
+        }        
+      });
     }
   },
   mounted(){
-    this.getSocket();
+    this.getLoginInfo();
   }
 };
 </script>
