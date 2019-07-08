@@ -1,11 +1,16 @@
 <template>
   <div id="app">
-    <Main msg="Welcome to Your Vue.js App"/>
+    <Main/>
   </div>
 </template>
 
 <script>
 import Main from './components/main.vue'
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import Vue from 'vue'
+Vue.use(BootstrapVue)
 
 export default {
   name: 'app',
