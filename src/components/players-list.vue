@@ -11,10 +11,26 @@
 </template>
 
 <script>
+import {SocketService} from '../services/socket.service';
 export default {
   name: "PlayersList",
-  props: {
-    msg: String
+  data() {
+    return {
+      socketService: new SocketService(),
+      playersData: Object,
+      players: []    
+    }    
+  },
+  methods: {
+    getPlayers(){      
+      this.socketService.getPlayersList(response => {
+        this.players = response['players'];
+        console.log(response);              
+      });
+    }
+  },
+  beforeMount(){
+    this.getPlayers();
   }
 };
 </script>

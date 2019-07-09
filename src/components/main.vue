@@ -8,7 +8,7 @@
           <p class="my-4">Player Username!</p>
           <input v-model="msg">
           <p v-if="errorMessage" class="my-4">{{errorMessage}}</p>
-          <b-button size="sm" variant="outline-danger" @click="okModal()" modal-ok> OK </b-button>
+          <b-button size="sm" variant="outline-danger" @click="okModal()"> OK </b-button>
         </b-modal>
       </div>
     </div>
@@ -50,10 +50,10 @@ export default {
       this.msg='';
     },
     getLoginInfo(){      
-      this.socketService.loginPlayerSuccess(callback => {
-        this.isLoged=callback['connected'];
+      this.socketService.loginPlayerSuccess(response => {
+        this.isLoged=response['connected'];
         if(this.isLoged == false){
-          this.errorMessage= callback['error']['message']
+          this.errorMessage= response['error']['message']
         }        
       });
     }

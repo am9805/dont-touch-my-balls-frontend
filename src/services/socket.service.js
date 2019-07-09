@@ -18,11 +18,12 @@ export class SocketService {
   loginPlayerSuccess(callback) {
     this.socket.on('PLAYER_ADDITION', data => {
         callback(data);
-    });
-    
-    
+    });   
   }
-  getSocketSession() {
-    return this.socket;
+
+  getPlayersList(callback){
+    this.socket.on('PLAYER_LIST', data => {
+        callback(data);
+    }); 
   }
 }
