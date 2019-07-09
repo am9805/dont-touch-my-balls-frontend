@@ -25,7 +25,7 @@ export default {
     getEventLog() {
       this.socketService.getEventLogs(response => {
         const logObject = { ...response, key: this.logs.length };
-        this.logs = [...this.logs, logObject];
+        this.logs.push(logObject);
       });
     }
   },
