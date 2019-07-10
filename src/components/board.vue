@@ -1,61 +1,61 @@
 <template>
-    <div >
-      <div v-for="player in players"
-          :key="player.name">
-        <b-button 
-          @click="$bvModal.show('modal-scoped-2')"
-          variant="success" 
-          class="button-c"
-          > {{player.name}}</b-button>
+  <div>    
+    <b-button  v-for="player in players"
+          :key="player.name" id="show-btn" class="cbutton" @click="showModal(player.name)">{{player.name}}</b-button>
 
-         <b-modal id="modal-scoped-2">
-              <b-button  v-if="selectedWord == ''" @click="getWord()"  variant="success" >GENERATE WORD</b-button>
-              <div v-if="selectedWord != ''">
-                <p class="my-4">Write this word "{{selectedWord}}" bellow</p>
-                <input v-model="word">
-                <!-- <p v-if="errorMessage" class="my-4">{{errorMessage}}</p> -->
-                 <b-button size="sm" variant="outline-danger" @click="checkWord(player.name)"> Verify </b-button>
-              </div>
-
-            </b-modal> 
-      </div>      
-    </div> 
+    <b-modal ref="my-modal" >
+      <b-button  v-if="selectedWord == ''" @click="getWord()"  variant="success" >GENERATE WORD</b-button>
+      <div  class="d-block text-center" v-if="selectedWord != ''">
+         
+          <p class="my-4">Write this word "{{selectedWord}}" bellow</p>
+          <input v-model="word">
+      </div>
+      <b-button class="mt-3" variant="outline-danger" block @click="checkWord">Verify</b-button>
+    </b-modal>
+  </div>
 </template>
 
 <script>
 import {socketService} from '../services/socket.service';
 
-export default {
-  name: "Board",
-  data() {
-    return {
-      socketService:socketService,
-      playersData: Object,
-      players: [],
-      index:Number,
-      word: '',
-      show: false,
-      selectedWord:'',
-      match: Boolean,
-      words:['parangaricutirimicuaro', 'esternocleidomastoideo', 'otorrinolaringologia', 'donttouchmyballs',
-      'supercalifragilisticoespialidoso', 'electroencefalografista', 'uno', 'demogorgon', 'valarmorghulis',
-      'valardohaeris', 'dracarys', 'caleidoscopio', 'paralelepipedo', 'antigubernamentalisticamente']    
-    }    
-  },
-  methods: {
-    getPlayers(){      
+  export default {
+    data(){
+      return {
+        socketService:socketService,
+        playersData: Object,
+        players: [],
+        index:Number,
+        word: '',
+        playerName: '',
+        selectedWord:'',
+        match: Boolean,
+        words:['parangaricutirimicuaro', 'esternocleidomastoideo', 'otorrinolaringologia', 'donttouchmyballs',
+        'supercalifragilisticoespialidoso', 'electroencefalografista', 'uno', 'demogorgon', 'valarmorghulis',
+        'valardohaeris', 'dracarys', 'caleidoscopio', 'paralelepipedo', 'antigubernamentalisticamente']    
+      }
+    },
+    methods: {
+      getPlayers(){      
       this.socketService.getPlayersList(response => {
-        this.players = response['players'];    
+        this.players = response['players'];        
       });
     },
-    checkWord(atackedUser){
+      showModal(player) {
+        this.playerName = player
+        this.$refs['my-modal'].show()
+      },
+      hideModal() {
+        
+      },
+      checkWord(){
       if(this.word === this.selectedWord){
         let currentUser = this.socketService.getCurrentUser();
         console.log(currentUser);        
-        this.socketService.sendCapture(currentUser, atackedUser, true );
+        this.socketService.sendCapture(currentUser, this.playerName , true );
         this.selectedWord = '';
         this.match = true;
         this.word='';
+        this.$refs['my-modal'].hide()
       }else{
         let currentUser = this.socketService.getCurrentUser();
         this.socketService.sendCapture(currentUser, atackedUser, false );
@@ -75,26 +75,112 @@ export default {
           
       });
     },
-    showModal(){
-      this.show=true;
-    }
-  },
-  beforeMount(){
+    },
+    beforeMount(){
     this.getPlayers();
     this.getCaptureResult();
   }
-};
+}
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-.button-c{
-  margin: 10px;
-}
-
-
-.my-4{
-  color: black;
-}
+  .cbutton{
+    margin: 10px;
+  }
+  .my-4{
+    color: black;
+  }
 </style>
+<!--<template>
+
+    <div >
+      <div v-for="player in players"
+          :key="player.name"
+          class="container-button">
+        <b-button 
+          @click="showModal(player.name)"
+          variant="success"
+          > {{player.name}}</b-button>
+        
+      <b-modal ref="my-modal">
+        <b-button  v-if="selectedWord == ''" @click="getWord()"  variant="success" >GENERATE WORD</b-button>
+        <div v-if="selectedWord != ''">
+          <p class="my-4">Write this word "{{selectedWord}}" bellow</p>
+          <input v-model="word">
+           <b-button size="sm" variant="outline-danger" @click="checkWord(player.name)"> Verify </b-button>
+        </div>
+      </b-modal> 
+      </div>    
+    </div> 
+</template>
+
+<!--<script>
+// import {socketService} from '../services/socket.service';
+
+// export default {
+//   name: "Board",
+//   data() {
+//     return {
+//       socketService:socketService,
+//       playersData: Object,
+//       players: [],
+//       index:Number,
+//       word: '',
+//       playerName: '',
+//       selectedWord:'',
+//       match: Boolean,
+//       words:['parangaricutirimicuaro', 'esternocleidomastoideo', 'otorrinolaringologia', 'donttouchmyballs',
+//       'supercalifragilisticoespialidoso', 'electroencefalografista', 'uno', 'demogorgon', 'valarmorghulis',
+//       'valardohaeris', 'dracarys', 'caleidoscopio', 'paralelepipedo', 'antigubernamentalisticamente']    
+//     }    
+//   },
+//   methods: {
+//     getPlayers(){      
+//       this.socketService.getPlayersList(response => {
+//         this.players = response['players'];    
+//       });
+//     },
+//     checkWord(atackedUser){
+//       if(this.word === this.selectedWord){
+//         let currentUser = this.socketService.getCurrentUser();
+//         console.log(currentUser);        
+//         this.socketService.sendCapture(currentUser, atackedUser, true );
+//         this.selectedWord = '';
+//         this.match = true;
+//         this.word='';
+//       }else{
+//         let currentUser = this.socketService.getCurrentUser();
+//         this.socketService.sendCapture(currentUser, atackedUser, false );
+//         console.log('NICE TRY');    
+//         this.selectedWord = '';    
+//         this.match = false;
+//         this.word='';
+//       }     
+//     },
+//     getWord(){
+//       this.index = Math.floor((Math.random() * this.words.length) + 1);
+//        this.selectedWord = this.words[this.index]; 
+//     },
+//     getCaptureResult(){
+//       this.socketService.sendCaptureSuccess(response => {
+//         console.log(response);
+          
+//       });
+//     },
+//     showModal(name) {
+//       this.playerName = name;  
+//       this.$refs['my-modal'].show()
+//       },
+//       hideModal() {
+//         this.$refs['my-modal'].hide()
+//       },
+//   },
+//   beforeMount(){
+//     this.getPlayers();
+//     this.getCaptureResult();
+//   }
+// };
+// </script>
+
+// <!-- Add "scoped" attribute to limit CSS to this component only 
+
+</style>-->
