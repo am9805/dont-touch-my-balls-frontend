@@ -26,13 +26,13 @@ import Board from "./board";
 import Score from "./score";
 import Logs from "./logs";
 import PlayersList from "./players-list";
-import {SocketService} from '../services/socket.service';
+import {socketService} from '../services/socket.service';
 export default {
   name: "Main",
   data() {
     return {
       msg: '',
-      socketService: new SocketService(),
+      socketService: socketService,
       isLoged : false,
       playerData: Object,
       errorMessage: ''      
