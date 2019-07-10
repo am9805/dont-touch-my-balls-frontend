@@ -134,7 +134,7 @@ a {
 .logs,
 .main {
   padding: 10px;
-  border: 1px solid #e55812;
+  border: 1px solid #f4f6f6;
   border-radius: 7px;
 }
 </style>

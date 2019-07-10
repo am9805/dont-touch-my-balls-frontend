@@ -1,24 +1,25 @@
 <template>
     <div >
-      <b-button 
-      @click="$bvModal.show('modal-scoped-2')"
-      variant="success" 
-      class="button-c" 
-      v-for="player in players"
-      :key="player.name">{{player.name}}
-      
-      </b-button>
-      <b-modal id="modal-scoped-2">
-          <b-button  v-if="selectedWord == ''" @click="getWord()"  variant="success" >GENERATE WORD</b-button>
-          <div v-if="selectedWord != ''">
-            <p class="my-4">Write this word "{{selectedWord}}" bellow</p>
-            <input v-model="word">
-            <!-- <p v-if="errorMessage" class="my-4">{{errorMessage}}</p> -->
-            <b-button size="sm" variant="outline-danger" @click="checkWord(player.name)"> Verify </b-button>
-          </div>
-          
-        </b-modal>
-    </div>
+      <div v-for="player in players"
+          :key="player.name">
+        <b-button 
+          @click="$bvModal.show('modal-scoped-2')"
+          variant="success" 
+          class="button-c"
+          > {{player.name}}</b-button>
+
+         <b-modal id="modal-scoped-2">
+              <b-button  v-if="selectedWord == ''" @click="getWord()"  variant="success" >GENERATE WORD</b-button>
+              <div v-if="selectedWord != ''">
+                <p class="my-4">Write this word "{{selectedWord}}" bellow</p>
+                <input v-model="word">
+                <!-- <p v-if="errorMessage" class="my-4">{{errorMessage}}</p> -->
+                 <b-button size="sm" variant="outline-danger" @click="checkWord(player.name)"> Verify </b-button>
+              </div>
+
+            </b-modal> 
+      </div>      
+    </div> 
 </template>
 
 <script>
@@ -33,6 +34,7 @@ export default {
       players: [],
       index:Number,
       word: '',
+      show: false,
       selectedWord:'',
       match: Boolean,
       words:['parangaricutirimicuaro', 'esternocleidomastoideo', 'otorrinolaringologia', 'donttouchmyballs',
@@ -72,10 +74,14 @@ export default {
         console.log(response);
           
       });
+    },
+    showModal(){
+      this.show=true;
     }
   },
   beforeMount(){
     this.getPlayers();
+    this.getCaptureResult();
   }
 };
 </script>

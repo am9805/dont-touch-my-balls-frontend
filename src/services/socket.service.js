@@ -39,7 +39,7 @@ export class SocketService {
     });
   }
 
-  sendCaptureSuccess(){
+  sendCaptureSuccess(callback){
     this.socket.on('CAPTURE_RESULT', data => {
       callback(data);
   });
