@@ -37,6 +37,12 @@ export class SocketService {
     }); 
   }
 
+  getScoreList(callback) {
+    this.socket.on('PLAYER_UPDATE_SCORE', data => {
+      callback(data);
+    });
+  }
+
   sendCapture(attacker, attacked, successfulAttack){
     this.socket.emit('CAPTURE_ATTEMPT', {
       attacker,
