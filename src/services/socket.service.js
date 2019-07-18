@@ -17,7 +17,7 @@ export class SocketService {
 
   loginPlayerSuccess(callback) {
     this.socket.on('PLAYER_ADDITION', data => {
-        callback(data);
+      callback(data);
     });   
   }
 
@@ -25,9 +25,15 @@ export class SocketService {
     return this.currentUser;
   }
 
+  getEventLogs(callback) {
+    this.socket.on('LOG_INFO', data => {
+      callback(data);
+    });
+  }
+
   getPlayersList(callback){
     this.socket.on('PLAYER_LIST', data => {
-        callback(data);
+      callback(data);
     }); 
   }
 

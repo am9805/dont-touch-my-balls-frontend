@@ -6,9 +6,9 @@
         <b-button @click="$bvModal.show('modal-scoped')">LOGIN</b-button>
         <b-modal id="modal-scoped">
           <p class="my-4">Player Username!</p>
-          <input v-model="msg">
+          <input v-model="msg" />
           <p v-if="errorMessage" class="my-4">{{errorMessage}}</p>
-          <b-button size="sm" variant="outline-danger" @click="okModal()"> OK </b-button>
+          <b-button size="sm" variant="outline-danger" @click="okModal()">OK</b-button>
         </b-modal>
       </div>
     </div>
@@ -35,8 +35,8 @@ export default {
       socketService: socketService,
       isLoged : false,
       playerData: Object,
-      errorMessage: ''      
-    }    
+      errorMessage: ""
+    };
   },
   components: {
     Board,
@@ -45,20 +45,20 @@ export default {
     PlayersList
   },
   methods: {
-    okModal(){
+    okModal() {
       this.socketService.loginPlayer(this.msg);
-      this.msg='';
+      this.msg = '';
     },
-    getLoginInfo(){      
+    getLoginInfo() {
       this.socketService.loginPlayerSuccess(response => {
-        this.isLoged=response['connected'];
-        if(this.isLoged == false){
-          this.errorMessage= response['error']['message']
-        }        
+        this.isLoged = response['connected'];
+        if (this.isLoged == false) {
+          this.errorMessage = response['error']['message'];
+        }
       });
     }
   },
-  mounted(){
+  mounted() {
     this.getLoginInfo();
   }
 };
@@ -81,7 +81,7 @@ a {
   color: #42b983;
 }
 
-.my-4{
+.my-4 {
   color: black;
 }
 .container {
