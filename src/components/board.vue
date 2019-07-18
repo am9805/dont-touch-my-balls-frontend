@@ -58,7 +58,7 @@ import {socketService} from '../services/socket.service';
         this.$refs['my-modal'].hide()
       }else{
         let currentUser = this.socketService.getCurrentUser();
-        this.socketService.sendCapture(currentUser, atackedUser, false );
+        this.socketService.sendCapture(currentUser, this.playerName, false );
         console.log('NICE TRY');    
         this.selectedWord = '';    
         this.match = false;
@@ -71,8 +71,7 @@ import {socketService} from '../services/socket.service';
     },
     getCaptureResult(){
       this.socketService.sendCaptureSuccess(response => {
-        console.log(response);
-          
+        window.alert(`${this.playerName} perdió ${response['attacked']['lostPoints']} punto!`)          
       });
     },
     },
