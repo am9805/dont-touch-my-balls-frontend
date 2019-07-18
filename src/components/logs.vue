@@ -8,13 +8,13 @@
 </template>
 
 <script>
-import {SocketService} from '../services/socket.service';
+import { socketService } from '../services/socket.service';
 
 export default {
   name: "Logs",
   data() {
     return {
-      socketService: new SocketService(),
+      socketService,
       logs: [{ key: 0, message: "Log" }]
     };
   },

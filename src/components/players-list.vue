@@ -2,10 +2,7 @@
     <div> 
       <p>PLAYERS</p> 
       <ul>
-        <li>WHAT</li>
-        <li>WHAT</li>
-        <li>WHAT</li>
-        <li>WHAT</li>
+        <li v-for="player in players"  :key="player.name">{{player.name}}</li>
       </ul>
     </div>
 </template>
@@ -24,8 +21,7 @@ export default {
   methods: {
     getPlayers(){      
       this.socketService.getPlayersList(response => {
-        this.players = response['players'];
-        console.log(response);              
+        this.players = response['players'];    
       });
     }
   },

@@ -28,9 +28,10 @@ export default {
   text-align: center;
   margin-top: 10px;
   
+  
 }
 body{
-  background-color: #16294C;
+  background: linear-gradient( to right, #FA5C65, #FD9A28);
   color:aliceblue;
 }
 </style>

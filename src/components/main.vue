@@ -26,14 +26,14 @@ import Board from "./board";
 import Score from "./score";
 import Logs from "./logs";
 import PlayersList from "./players-list";
-import { SocketService } from "../services/socket.service";
+import {socketService} from '../services/socket.service';
 export default {
   name: "Main",
   data() {
     return {
-      msg: "",
-      socketService: new SocketService(),
-      isLoged: false,
+      msg: '',
+      socketService: socketService,
+      isLoged : false,
       playerData: Object,
       errorMessage: ""
     };
@@ -134,7 +134,7 @@ a {
 .logs,
 .main {
   padding: 10px;
-  border: 1px solid #e55812;
+  border: 1px solid #f4f6f6;
   border-radius: 7px;
 }
 </style>
