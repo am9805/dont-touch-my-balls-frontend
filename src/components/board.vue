@@ -1,14 +1,18 @@
 <template>
-  <div>    
-    <b-button  v-for="player in players"
-          :key="player.name" id="show-btn" class="cbutton" @click="showModal(player.name)">{{player.name}}</b-button>
+  <div>
+    <b-button
+      v-for="player in players"
+      :key="player.name"
+      id="show-btn"
+      class="cbutton"
+      @click="showModal(player.name)"
+    >{{player.name}}</b-button>
 
-    <b-modal ref="my-modal" >
-      <b-button  v-if="selectedWord == ''" @click="getWord()"  variant="success" >GENERATE WORD</b-button>
-      <div  class="d-block text-center" v-if="selectedWord != ''">
-         
-          <p class="my-4">Write this word "{{selectedWord}}" bellow</p>
-          <input v-model="word">
+    <b-modal ref="my-modal">
+      <b-button v-if="selectedWord == ''" @click="getWord()" variant="success">GENERATE WORD</b-button>
+      <div class="d-block text-center" v-if="selectedWord != ''">
+        <p class="my-4">Write this word "{{selectedWord}}" bellow</p>
+        <input v-model="word" />
       </div>
       <b-button class="mt-3" variant="outline-danger" block @click="checkWord">Verify</b-button>
     </b-modal>
@@ -16,76 +20,105 @@
 </template>
 
 <script>
-import {socketService} from '../services/socket.service';
+import { socketService } from "../services/socket.service";
 
-  export default {
-    data(){
-      return {
-        socketService:socketService,
-        playersData: Object,
-        players: [],
-        index:Number,
-        word: '',
-        playerName: '',
-        selectedWord:'',
-        match: Boolean,
-        words:['parangaricutirimicuaro', 'esternocleidomastoideo', 'otorrinolaringologia', 'donttouchmyballs',
-        'supercalifragilisticoespialidoso', 'electroencefalografista', 'uno', 'demogorgon', 'valarmorghulis',
-        'valardohaeris', 'dracarys', 'caleidoscopio', 'paralelepipedo', 'antigubernamentalisticamente']    
-      }
-    },
-    methods: {
-      getPlayers(){      
+export default {
+  data() {
+    return {
+      socketService: socketService,
+      playersData: Object,
+      players: [],
+      index: Number,
+      word: "",
+      playerName: "",
+      selectedWord: "",
+      x: 0,
+      match: Boolean,
+      words: [
+        "parangaricutirimicuaro",
+        "esternocleidomastoideo",
+        "otorrinolaringologia",
+        "donttouchmyballs",
+        "supercalifragilisticoespialidoso",
+        "electroencefalografista",
+        "uno",
+        "demogorgon",
+        "valarmorghulis",
+        "valardohaeris",
+        "dracarys",
+        "caleidoscopio",
+        "paralelepipedo",
+        "antigubernamentalisticamente"
+      ],
+      currentUser: socketService.getCurrentUser()
+    };
+  },
+  methods: {
+    getPlayers() {
       this.socketService.getPlayersList(response => {
-        this.players = response['players'];        
+        this.players = response["players"];
       });
     },
-      showModal(player) {
-        this.playerName = player
-        this.$refs['my-modal'].show()
-      },
-      hideModal() {
-        
-      },
-      checkWord(){
-      if(this.word === this.selectedWord){
-        let currentUser = this.socketService.getCurrentUser();
-        console.log(currentUser);        
-        this.socketService.sendCapture(currentUser, this.playerName , true );
-        this.selectedWord = '';
-        this.match = true;
-        this.word='';
-        this.$refs['my-modal'].hide()
+    showModal(player) {
+      let user  = this.socketService.getCurrentUser();
+      if (player !== user) {
+        this.playerName = player;
+        this.$refs["my-modal"].show();
+        this.x = 0;
       }else{
-        let currentUser = this.socketService.getCurrentUser();
-        this.socketService.sendCapture(currentUser, this.playerName, false );
-        console.log('NICE TRY');    
-        this.selectedWord = '';    
+        window.alert(
+            'NO TE ATAQUES!'
+          );
+      }
+
+    },
+    checkWord() {
+      this.currentUser = this.socketService.getCurrentUser();
+      if (this.word === this.selectedWord && this.word != "") {
+        this.socketService.sendCapture(this.currentUser, this.playerName, true);
+        this.selectedWord = "";
+        this.match = true;
+        this.word = "";
+        this.$refs["my-modal"].hide();
+      } else {
+        this.socketService.sendCapture(
+          this.currentUser,
+          this.playerName,
+          false
+        );
+        this.selectedWord = "";
         this.match = false;
-        this.word='';
-      }     
+        this.word = "";
+      }
+      console.log(this.currentUser);
     },
-    getWord(){
-      this.index = Math.floor((Math.random() * this.words.length) + 1);
-       this.selectedWord = this.words[this.index]; 
+    getWord() {
+      this.index = Math.floor(Math.random() * this.words.length + 1);
+      this.selectedWord = this.words[this.index];
     },
-    getCaptureResult(){
+    getCaptureResult() {
       this.socketService.sendCaptureSuccess(response => {
-        window.alert(`${this.playerName} perdió ${response['attacked']['lostPoints']} punto!`)          
+        if (this.x == 0) {
+          window.alert(
+            `${this.playerName} perdió ${
+              response["attacked"]["lostPoints"]
+            } punto!`
+          );
+        }
       });
-    },
-    },
-    beforeMount(){
+    }
+  },
+  beforeMount() {
     this.getPlayers();
     this.getCaptureResult();
   }
-}
+};
 </script>
 <style scoped>
-  .cbutton{
-    margin: 10px;
-  }
-  .my-4{
-    color: black;
-  }
+.cbutton {
+  margin: 10px;
+}
+.my-4 {
+  color: black;
+}
 </style>
