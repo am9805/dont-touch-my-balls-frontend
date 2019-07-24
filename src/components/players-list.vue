@@ -21,8 +21,6 @@ export default {
   methods: {
     getPlayers(){      
       this.socketService.getPlayersList(response => {
-        console.log('RESPONSE',response);
-        
         this.players = response['players']; 
         
            

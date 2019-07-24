@@ -9,7 +9,7 @@
               <b-button class="col" @click="$bvModal.show('modal-scoped')">LOGIN</b-button>
             </div>
             <div class="row">
-              <img  class="col-7" src="https://media.giphy.com/media/l1J9u3TZfpmeDLkD6/source.gif" />
+              <img  class="col-7 img-home" src="https://media.giphy.com/media/l1J9u3TZfpmeDLkD6/source.gif" />
             </div>
             <b-modal id="modal-scoped">
               <p class="my-4">Player Username!</p>
@@ -22,13 +22,19 @@
       </div>
       <div class="row" v-if="isLoged">
         <div class="col">
+          <img class="img-tittle"  src="https://media.giphy.com/media/1US8hT1k0j7SxeKke4/source.gif" alt="">
+        </div>
+        <div class="col">
           <PlayersList class="players" />
         </div>
-        <div class="col-6">
+        <div class="col-4">
           <Board class="board" />
         </div>
         <div class="col">
           <Score class="score" />
+        </div>
+        <div class="col">
+          <img class="img-tittle"  src="https://media.giphy.com/media/1zi2PKrEjKaHgCqraa/source.gif" alt="">
         </div>
       </div>
       <div class="row" v-if="isLoged">
@@ -86,14 +92,18 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .col,
-.col-6 .col-7{
+.col-4, .col-7{
   padding: 10px;
   border: 1px solid #f4f6f6;
   border-radius: 7px;
 }
-.row img{
+.img-home{
      margin-left: 20%;
    
+}
+.img-tittle{
+  width: 200px;
+  margin-left: 10%;
 }
  h3 {
   margin: 40px 0 0;

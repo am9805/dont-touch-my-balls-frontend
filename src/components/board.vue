@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>BOARD</h1>
+    <h1>ATTACK ZONE</h1>
     <b-button
       v-for="player in players"
       :key="player.name"
@@ -91,7 +91,6 @@ export default {
         this.match = false;
         this.word = "";
       }
-      console.log(this.currentUser);
     },
     getWord() {
       this.index = Math.floor(Math.random() * this.words.length + 1);
