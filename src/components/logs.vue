@@ -15,7 +15,7 @@ export default {
   data() {
     return {
       socketService,
-      logs: [{ key: 0, message: "Log" }]
+      logs: []
     };
   },
   props: {

@@ -6,7 +6,7 @@ export class SocketService {
   currentUser='';
   data;
   messages = [];
-  socket = io('localhost:3001');
+  socket = io('ws://sleepy-gorge-94805.herokuapp.com/');
 
   loginPlayer(name) {
     this.socket.emit('PLAYER_CONNECTION', {
@@ -32,7 +32,8 @@ export class SocketService {
   }
 
   getPlayersList(callback){
-    this.socket.on('PLAYER_LIST', data => {
+    this.socket.on('PLAYER_LIST', data => {       
+      // console.log('DATA',data);     
       callback(data);
     }); 
   }

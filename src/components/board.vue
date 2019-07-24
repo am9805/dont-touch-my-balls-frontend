@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>BOARD</h1>
     <b-button
       v-for="player in players"
       :key="player.name"
@@ -73,16 +74,16 @@ export default {
 
     },
     checkWord() {
-      this.currentUser = this.socketService.getCurrentUser();
+      let user  = this.socketService.getCurrentUser();
       if (this.word === this.selectedWord && this.word != "") {
-        this.socketService.sendCapture(this.currentUser, this.playerName, true);
+        this.socketService.sendCapture(user, this.playerName, true);
         this.selectedWord = "";
         this.match = true;
         this.word = "";
         this.$refs["my-modal"].hide();
       } else {
         this.socketService.sendCapture(
-          this.currentUser,
+          user,
           this.playerName,
           false
         );
